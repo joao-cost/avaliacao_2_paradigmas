@@ -109,25 +109,6 @@
             border: 1px solid var(--card-border);
         }
 
-        .presenter-badge {
-            font-size: 13px;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .presenter-badge.vitor {
-            background: rgba(59, 130, 246, 0.15);
-            color: var(--accent-blue);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-
-        .presenter-badge.joao {
-            background: rgba(139, 92, 246, 0.15);
-            color: var(--accent-purple);
-            border: 1px solid rgba(139, 92, 246, 0.3);
-        }
 
         /* Slides presentation deck area */
         main {
@@ -199,6 +180,7 @@
             line-height: 1.2;
             background: linear-gradient(120deg, #ffffff 40%, var(--text-muted) 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -460,6 +442,15 @@
             color: #ef4444;
         }
 
+        .tab-content {
+            display: none;
+            height: 100%;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         /* Presentation cover layout style */
         .cover-slide-content {
             display: flex;
@@ -477,6 +468,7 @@
             margin-bottom: 16px;
             background: linear-gradient(135deg, #ffffff 30%, var(--accent-purple) 70%, var(--accent-blue) 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -1px;
         }
@@ -674,7 +666,7 @@
             font-weight: 500;
             font-size: 14px;
             cursor: pointer;
-            display: flex;
+            display: none;
             align-items: center;
             gap: 8px;
             transition: all 0.2s ease;
@@ -990,7 +982,7 @@
             padding: 14px 20px;
             text-align: center;
             width: 320px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
         }
 
@@ -1024,7 +1016,7 @@
             color: var(--text-muted);
             line-height: 1.4;
             text-align: left;
-            border-top: 1px solid rgba(255,255,255,0.06);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
             padding-top: 6px;
         }
 
@@ -1048,7 +1040,7 @@
             border-radius: 10px;
             padding: 12px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
         }
 
@@ -1069,7 +1061,7 @@
             color: var(--text-muted);
             line-height: 1.3;
             text-align: left;
-            border-top: 1px solid rgba(255,255,255,0.04);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
             padding-top: 6px;
         }
     </style>
@@ -1087,10 +1079,7 @@
             <span class="logo-badge">UNEMAT</span>
             <span class="presentation-title">Paradigmas de Linguagens de Programação</span>
         </div>
-        <div style="display: flex; align-items: center;">
-            <span class="presenter-badge vitor" id="presenterBadge" style="margin-right: 12px;">Apresentador: Vitor</span>
-            <div class="slide-counter" id="slideCounter">Slide 1 / 10</div>
-        </div>
+        <div class="slide-counter" id="slideCounter">Slide 1 / 10</div>
     </header>
 
     <!-- MAIN SLIDES DECK CONTAINER -->
@@ -1102,7 +1091,8 @@
                 <div class="cover-slide-content">
                     <span class="slide-subtitle">Apresentação Acadêmica</span>
                     <h1 class="main-gradient-title">Paradigmas de Programação</h1>
-                    <p class="subtitle-cover">Estudo Prático sobre Paradigmas de Programação Através do Desenvolvimento de um Sistema de Zoológico</p>
+                    <p class="subtitle-cover">Estudo Prático sobre Paradigmas de Programação Através do Desenvolvimento
+                        de um Sistema de Zoológico</p>
 
                     <div class="author-box" style="width: auto; max-width: 500px;">
                         <span class="author-name"
@@ -1225,64 +1215,89 @@
                     <h2 class="slide-title">Árvore de Herança e Diagrama de Classes Completo</h2>
                 </div>
                 <div class="slide-content vertical" style="justify-content: center; align-items: center;">
-                    
+
                     <!-- Unified Tree Diagram Container -->
-                    <div style="display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1060px; margin: 0 auto;">
-                        
+                    <div
+                        style="display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1060px; margin: 0 auto;">
+
                         <!-- Tier 1: Zoologico (Root System Controller) -->
-                        <div class="tree-node" style="border-color: var(--accent-blue); background: rgba(59, 130, 246, 0.05); width: 380px; padding: 14px 24px; box-shadow: 0 0 25px rgba(59, 130, 246, 0.15);">
+                        <div class="tree-node"
+                            style="border-color: var(--accent-blue); background: rgba(59, 130, 246, 0.05); width: 380px; padding: 14px 24px; box-shadow: 0 0 25px rgba(59, 130, 246, 0.15);">
                             <div class="tree-node-title" style="font-size: 18px; margin-bottom: 6px;">
                                 <span style="color: var(--accent-blue); font-weight: 700;">Zoologico</span>
-                                <span class="tree-node-badge" style="background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); font-size: 11px; padding: 2px 8px;">Controle</span>
+                                <span class="tree-node-badge"
+                                    style="background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); font-size: 11px; padding: 2px 8px;">Controle</span>
                             </div>
-                            <div class="tree-node-fields" style="font-size: 12.5px; padding-top: 8px; line-height: 1.45;">
-                                <strong>Atributos:</strong> ArrayList&lt;Animal&gt; animais, ArrayList&lt;Tratador&gt; tratadores<br>
+                            <div class="tree-node-fields"
+                                style="font-size: 12.5px; padding-top: 8px; line-height: 1.45;">
+                                <strong>Atributos:</strong> ArrayList&lt;Animal&gt; animais, ArrayList&lt;Tratador&gt;
+                                tratadores<br>
                                 <strong>Métodos:</strong> cadastrarAnimal(), cadastrarTratador()
                             </div>
                         </div>
 
                         <!-- Branching line from Zoologico to LEVEL 2 -->
-                        <div style="display: flex; flex-direction: column; align-items: center; width: 680px; height: 28px; position: relative;">
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; width: 680px; height: 28px; position: relative;">
                             <div style="width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15);"></div>
                             <div style="width: 100%; height: 2px; background: rgba(255, 255, 255, 0.15);"></div>
                         </div>
 
                         <!-- Tier 2: Tratador and Animal (Parallel Nodes) -->
-                        <div style="display: flex; justify-content: space-between; width: 960px; position: relative; margin-top: -2px;">
+                        <div
+                            style="display: flex; justify-content: space-between; width: 960px; position: relative; margin-top: -2px;">
                             <!-- Vertical line down to Tratador -->
-                            <div style="position: absolute; left: 150px; top: -14px; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15);"></div>
+                            <div
+                                style="position: absolute; left: 150px; top: -14px; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15);">
+                            </div>
                             <!-- Vertical line down to Animal -->
-                            <div style="position: absolute; right: 170px; top: -14px; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15);"></div>
+                            <div
+                                style="position: absolute; right: 170px; top: -14px; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15);">
+                            </div>
 
                             <!-- Tratador Box (Left) -->
-                            <div class="tree-node" style="border-color: var(--accent-orange); background: rgba(245, 158, 11, 0.05); width: 300px; padding: 14px 24px; box-shadow: 0 0 25px rgba(245, 158, 11, 0.12);">
+                            <div class="tree-node"
+                                style="border-color: var(--accent-orange); background: rgba(245, 158, 11, 0.05); width: 300px; padding: 14px 24px; box-shadow: 0 0 25px rgba(245, 158, 11, 0.12);">
                                 <div class="tree-node-title" style="font-size: 18px; margin-bottom: 6px;">
                                     <span style="color: var(--accent-orange); font-weight: 700;">Tratador</span>
-                                    <span class="tree-node-badge" style="background: rgba(245, 158, 11, 0.15); color: var(--accent-orange); font-size: 11px; padding: 2px 8px;">Associação</span>
+                                    <span class="tree-node-badge"
+                                        style="background: rgba(245, 158, 11, 0.15); color: var(--accent-orange); font-size: 11px; padding: 2px 8px;">Associação</span>
                                 </div>
-                                <div class="tree-node-fields" style="font-size: 12.5px; padding-top: 8px; line-height: 1.45;">
+                                <div class="tree-node-fields"
+                                    style="font-size: 12.5px; padding-top: 8px; line-height: 1.45;">
                                     <strong>Atributos:</strong> int matricula, String nome<br>
                                     <strong>Métodos:</strong> imprimir(), toString()
                                 </div>
                             </div>
 
                             <!-- Association Arrow Line in the middle -->
-                            <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; margin: 0 24px;">
-                                <div style="width: 100%; border-bottom: 2px dashed rgba(255, 255, 255, 0.25); position: relative; height: 0; margin-top: 5px;">
+                            <div
+                                style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; margin: 0 24px;">
+                                <div
+                                    style="width: 100%; border-bottom: 2px dashed rgba(255, 255, 255, 0.25); position: relative; height: 0; margin-top: 5px;">
                                     <!-- Arrow pointing to Tratador (left) and/or Animal (right) -->
-                                    <div style="position: absolute; right: 0; top: -4px; width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-left: 6px solid var(--accent-purple);"></div>
-                                    <div style="position: absolute; left: 0; top: -4px; width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-right: 6px solid var(--accent-orange);"></div>
+                                    <div
+                                        style="position: absolute; right: 0; top: -4px; width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-left: 6px solid var(--accent-purple);">
+                                    </div>
+                                    <div
+                                        style="position: absolute; left: 0; top: -4px; width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-right: 6px solid var(--accent-orange);">
+                                    </div>
                                 </div>
-                                <span style="font-size: 11px; color: var(--text-muted); background: var(--bg-secondary); padding: 3px 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.06); margin-top: -10px; z-index: 5;">atribuído a</span>
+                                <span
+                                    style="font-size: 11px; color: var(--text-muted); background: var(--bg-secondary); padding: 3px 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.06); margin-top: -10px; z-index: 5;">atribuído
+                                    a</span>
                             </div>
 
                             <!-- Animal Superclass Box (Right) -->
-                            <div class="tree-node" style="border-color: var(--accent-purple); background: rgba(139, 92, 246, 0.05); width: 340px; padding: 14px 24px; box-shadow: 0 0 25px rgba(139, 92, 246, 0.15);">
+                            <div class="tree-node"
+                                style="border-color: var(--accent-purple); background: rgba(139, 92, 246, 0.05); width: 340px; padding: 14px 24px; box-shadow: 0 0 25px rgba(139, 92, 246, 0.15);">
                                 <div class="tree-node-title" style="font-size: 18px; margin-bottom: 6px;">
                                     <span style="color: var(--accent-purple); font-weight: 700;">Animal</span>
-                                    <span class="tree-node-badge" style="background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); font-size: 11px; padding: 2px 8px;">Superclasse</span>
+                                    <span class="tree-node-badge"
+                                        style="background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); font-size: 11px; padding: 2px 8px;">Superclasse</span>
                                 </div>
-                                <div class="tree-node-fields" style="font-size: 12.5px; padding-top: 8px; line-height: 1.45;">
+                                <div class="tree-node-fields"
+                                    style="font-size: 12.5px; padding-top: 8px; line-height: 1.45;">
                                     <strong>Atributos:</strong> id, nome, especie, idade, <i>Tratador tratador</i><br>
                                     <strong>Métodos:</strong> comer(), dormir(), imprimir()
                                 </div>
@@ -1290,54 +1305,80 @@
                         </div>
 
                         <!-- Connector down from Animal to Subclasses -->
-                        <div style="display: flex; flex-direction: column; align-items: center; width: 960px; height: 28px; position: relative;">
+                        <div
+                            style="display: flex; flex-direction: column; align-items: center; width: 960px; height: 28px; position: relative;">
                             <!-- Vertical line down from Animal center (170px from right) -->
-                            <div style="position: absolute; right: 170px; top: 0; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15);"></div>
+                            <div
+                                style="position: absolute; right: 170px; top: 0; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15);">
+                            </div>
                             <!-- Horizontal branching line centered under subclasses (covering left: 330px to right: 90px) -->
-                            <div style="position: absolute; left: 330px; right: 90px; top: 14px; height: 2px; background: rgba(255, 255, 255, 0.15);"></div>
+                            <div
+                                style="position: absolute; left: 330px; right: 90px; top: 14px; height: 2px; background: rgba(255, 255, 255, 0.15);">
+                            </div>
                         </div>
 
                         <!-- Tier 3: The 4 Subclasses (Grid spanning from center to right side) -->
-                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; width: 960px; padding-left: 240px; margin-top: -2px;">
-                            
+                        <div
+                            style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; width: 960px; padding-left: 240px; margin-top: -2px;">
+
                             <!-- Leão -->
-                            <div class="tree-subnode" style="position: relative; padding: 12px; border-color: rgba(16, 185, 129, 0.25); background: rgba(16, 185, 129, 0.03);">
-                                <div style="position: absolute; top: -14px; left: 50%; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15); transform: translateX(-50%);"></div>
-                                <div class="tree-subnode-title" style="font-size: 14px; margin-bottom: 4px; font-weight: 700;">Leão</div>
+                            <div class="tree-subnode"
+                                style="position: relative; padding: 12px; border-color: rgba(16, 185, 129, 0.25); background: rgba(16, 185, 129, 0.03);">
+                                <div
+                                    style="position: absolute; top: -14px; left: 50%; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15); transform: translateX(-50%);">
+                                </div>
+                                <div class="tree-subnode-title"
+                                    style="font-size: 14px; margin-bottom: 4px; font-weight: 700;">Leão</div>
                                 <div class="tree-subnode-fields" style="font-size: 11px; line-height: 1.35;">
                                     • rugir()<br>
-                                    • imprimir() <span style="color: var(--accent-purple); font-weight: 500;">(override)</span>
+                                    • imprimir() <span
+                                        style="color: var(--accent-purple); font-weight: 500;">(override)</span>
                                 </div>
                             </div>
 
                             <!-- Elefante -->
-                            <div class="tree-subnode" style="position: relative; padding: 12px; border-color: rgba(16, 185, 129, 0.25); background: rgba(16, 185, 129, 0.03);">
-                                <div style="position: absolute; top: -14px; left: 50%; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15); transform: translateX(-50%);"></div>
-                                <div class="tree-subnode-title" style="font-size: 14px; margin-bottom: 4px; font-weight: 700;">Elefante</div>
+                            <div class="tree-subnode"
+                                style="position: relative; padding: 12px; border-color: rgba(16, 185, 129, 0.25); background: rgba(16, 185, 129, 0.03);">
+                                <div
+                                    style="position: absolute; top: -14px; left: 50%; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15); transform: translateX(-50%);">
+                                </div>
+                                <div class="tree-subnode-title"
+                                    style="font-size: 14px; margin-bottom: 4px; font-weight: 700;">Elefante</div>
                                 <div class="tree-subnode-fields" style="font-size: 11px; line-height: 1.35;">
                                     • tomarBanho()<br>
-                                    • imprimir() <span style="color: var(--accent-purple); font-weight: 500;">(override)</span>
+                                    • imprimir() <span
+                                        style="color: var(--accent-purple); font-weight: 500;">(override)</span>
                                 </div>
                             </div>
 
                             <!-- Macaco -->
-                            <div class="tree-subnode" style="position: relative; padding: 12px; border-color: rgba(16, 185, 129, 0.25); background: rgba(16, 185, 129, 0.03);">
-                                <div style="position: absolute; top: -14px; left: 50%; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15); transform: translateX(-50%);"></div>
-                                <div class="tree-subnode-title" style="font-size: 14px; margin-bottom: 4px; font-weight: 700;">Macaco</div>
+                            <div class="tree-subnode"
+                                style="position: relative; padding: 12px; border-color: rgba(16, 185, 129, 0.25); background: rgba(16, 185, 129, 0.03);">
+                                <div
+                                    style="position: absolute; top: -14px; left: 50%; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15); transform: translateX(-50%);">
+                                </div>
+                                <div class="tree-subnode-title"
+                                    style="font-size: 14px; margin-bottom: 4px; font-weight: 700;">Macaco</div>
                                 <div class="tree-subnode-fields" style="font-size: 11px; line-height: 1.35;">
                                     • pular()<br>
-                                    • imprimir() <span style="color: var(--accent-purple); font-weight: 500;">(override)</span>
+                                    • imprimir() <span
+                                        style="color: var(--accent-purple); font-weight: 500;">(override)</span>
                                 </div>
                             </div>
 
                             <!-- Cobra -->
-                            <div class="tree-subnode" style="position: relative; padding: 12px; border-color: rgba(16, 185, 129, 0.25); background: rgba(16, 185, 129, 0.03);">
-                                <div style="position: absolute; top: -14px; left: 50%; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15); transform: translateX(-50%);"></div>
-                                <div class="tree-subnode-title" style="font-size: 14px; margin-bottom: 4px; font-weight: 700;">Cobra</div>
+                            <div class="tree-subnode"
+                                style="position: relative; padding: 12px; border-color: rgba(16, 185, 129, 0.25); background: rgba(16, 185, 129, 0.03);">
+                                <div
+                                    style="position: absolute; top: -14px; left: 50%; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15); transform: translateX(-50%);">
+                                </div>
+                                <div class="tree-subnode-title"
+                                    style="font-size: 14px; margin-bottom: 4px; font-weight: 700;">Cobra</div>
                                 <div class="tree-subnode-fields" style="font-size: 11px; line-height: 1.35;">
                                     • peçonhenta (bool)<br>
                                     • rastejar()<br>
-                                    • imprimir() <span style="color: var(--accent-purple); font-weight: 500;">(override)</span>
+                                    • imprimir() <span
+                                        style="color: var(--accent-purple); font-weight: 500;">(override)</span>
                                 </div>
                             </div>
 
@@ -1358,7 +1399,7 @@
                 </div>
                 <div class="slide-content">
                     <div class="col-2" style="align-items: stretch; gap: 20px; height: 100%;">
-                        
+
                         <!-- Coluna Esquerda: C (Procedural) -->
                         <div class="code-container">
                             <div class="code-header">
@@ -1486,8 +1527,8 @@ a.imprimir(); <span class="syn-comment">// O próprio objeto age</span></code></
                     <div class="col-2">
                         <div>
                             <p class="paragraph">O nosso projeto do Zoológico em Java utiliza uma <strong>arquitetura
-                                     híbrida de fato</strong>, embora a modelagem de dados seja puramente estruturada em
-                                 POO.</p>
+                                    híbrida de fato</strong>, embora a modelagem de dados seja puramente estruturada em
+                                POO.</p>
                             <ul class="list-items" style="margin-bottom: 20px;">
                                 <li class="list-item"><strong>Classes de Domínio (POO):</strong> `Animal`, `Tratador` e
                                     as subclasses (`Leao`, `Cobra` etc.) representam objetos reais, aplicando Herança
@@ -1499,7 +1540,7 @@ a.imprimir(); <span class="syn-comment">// O próprio objeto age</span></code></
                         </div>
                         <div class="card-column">
                             <h3 class="column-header"><span class="bullet-icon"
-                                     style="background-color: var(--accent-green);"></span>Estrutura do Sistema</h3>
+                                    style="background-color: var(--accent-green);"></span>Estrutura do Sistema</h3>
                             <div style="font-size: 14px; line-height: 1.6; color: var(--text-muted);">
                                 <strong>Paradigmas_Zoologico/</strong><br>
                                 ├── <span style="color: var(--accent-purple);">Animal.java</span> (Classe Base)<br>
@@ -1661,8 +1702,8 @@ a.imprimir(); <span class="syn-comment">// O próprio objeto age</span></code></
                             agora:</span>
                         <div
                             style="font-size: 14px; color: var(--text-muted); text-align: left; line-height: 1.6; display: flex; flex-direction: column; gap: 6px;">
-                            <div>• <strong>Fluxo Imperativo/Procedural:</strong> CRUD rodando no console através do menu
-                                da <code>Main.java</code>.</div>
+                            <div>• <strong>Estrutura das Classes:</strong> Estrutura das Classes, com ênfase na
+                                criação de classes, métodos, atributos e relacionamentos entre classes.</div>
                             <div>• <strong>Orientação a Objetos na Prática:</strong> Funcionamento de herança,
                                 polimorfismo e vinculação de objetos.</div>
                             <div>• <strong>Interface Gráfica (Swing):</strong> Controle do mesmo CRUD de forma visual
@@ -1829,20 +1870,6 @@ a.imprimir(); <span class="syn-comment">// O próprio objeto age</span></code></
              </ul>`
         ];
 
-        // Presenter mapping for each slide index
-        const presenterMapping = [
-            "Vitor",       // Slide 1: Capa
-            "Vitor",       // Slide 2: Objetivo
-            "Vitor",       // Slide 3: Conceito Procedural
-            "Vitor",       // Slide 4: Conceito OO
-            "Vitor",       // Slide 5: Árvore de Herança
-            "João Vitor",  // Slide 6: Código Comparativo C vs Java
-            "João Vitor",  // Slide 7: Simulador
-            "João Vitor",  // Slide 8: Nosso Projeto
-            "João Vitor",  // Slide 9: Código do Projeto
-            "João Vitor"   // Slide 10: Execução Prática
-        ];
-
         // Updates display state to render the active slide
         function updatePresentation() {
             slides.forEach((slide, idx) => {
@@ -1856,16 +1883,6 @@ a.imprimir(); <span class="syn-comment">// O próprio objeto age</span></code></
             // Update footer controls
             slideSelector.value = (currentSlideIndex + 1).toString();
             slideCounter.textContent = `Slide ${currentSlideIndex + 1} / ${slides.length}`;
-
-            // Update presenter badge
-            const presenter = presenterMapping[currentSlideIndex];
-            const presenterBadge = document.getElementById('presenterBadge');
-            presenterBadge.textContent = `Apresentador: ${presenter}`;
-            if (presenter === "Vitor") {
-                presenterBadge.className = "presenter-badge vitor";
-            } else {
-                presenterBadge.className = "presenter-badge joao";
-            }
 
             // Progress calculation
             const progress = (currentSlideIndex / (slides.length - 1)) * 100;
