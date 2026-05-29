@@ -1,0 +1,2023 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação: Paradigmas de Programação - João Vitor</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a10;
+            --bg-secondary: #12121e;
+            --card-bg: rgba(22, 22, 38, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-purple: #8b5cf6;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --glow-color: rgba(139, 92, 246, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        /* Background glow elements */
+        .bg-glow-1 {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 50%;
+            height: 50%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .bg-glow-2 {
+            position: absolute;
+            bottom: -10%;
+            right: -10%;
+            width: 60%;
+            height: 60%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Header layout */
+        header {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            background: rgba(10, 10, 16, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-badge {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .presentation-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .slide-counter {
+            font-size: 14px;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+        }
+
+        .presenter-badge {
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .presenter-badge.vitor {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .presenter-badge.joao {
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--accent-purple);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        /* Slides presentation deck area */
+        main {
+            flex-grow: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 40px;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            max-width: 1200px;
+            height: 100%;
+            max-height: 680px;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.96) translate3d(0, 20px, 0);
+            transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+                transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translate3d(0, 0, 0);
+            z-index: 5;
+        }
+
+        /* Slide layout styles */
+        .glass-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .slide-title-area {
+            margin-bottom: 24px;
+        }
+
+        .slide-subtitle {
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent-purple);
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .slide-title {
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            background: linear-gradient(120deg, #ffffff 40%, var(--text-muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-content {
+            flex-grow: 1;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        .slide-content.vertical {
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: center;
+        }
+
+        /* Text element designs */
+        .paragraph {
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .highlight-text {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .list-items {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 18px;
+            line-height: 1.5;
+            color: var(--text-muted);
+        }
+
+        .list-item::before {
+            content: "•";
+            color: var(--accent-purple);
+            font-weight: bold;
+            font-size: 24px;
+            line-height: 18px;
+        }
+
+        .list-item strong {
+            color: var(--text-main);
+        }
+
+        /* Columns layout */
+        .col-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            width: 100%;
+        }
+
+        .card-column {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 24px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .column-header {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+        }
+
+        .bullet-icon {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* Code Block Styling */
+        .code-container {
+            position: relative;
+            background: #06060c;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            overflow: hidden;
+            font-family: "Fira Code", Consolas, Monaco, "Andale Mono", monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            text-align: left;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .code-header {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .code-lang-tag {
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--accent-purple);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .code-window-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .code-window-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .code-window-dot.red {
+            background-color: var(--accent-red);
+        }
+
+        .code-window-dot.yellow {
+            background-color: var(--accent-orange);
+        }
+
+        .code-window-dot.green {
+            background-color: var(--accent-green);
+        }
+
+        .code-body {
+            padding: 16px;
+            overflow-x: auto;
+            flex-grow: 1;
+            margin: 0;
+            white-space: pre;
+            color: #d1d5db;
+        }
+
+        /* Syntax colors */
+        .syn-keyword {
+            color: #f472b6;
+            font-weight: 600;
+        }
+
+        .syn-type {
+            color: #60a5fa;
+        }
+
+        .syn-string {
+            color: #34d399;
+        }
+
+        .syn-number {
+            color: #fbbf24;
+        }
+
+        .syn-comment {
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .syn-def {
+            color: #a78bfa;
+        }
+
+        .syn-method {
+            color: #fb7185;
+        }
+
+        /* Project files explorer */
+        .project-explorer {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+            width: 100%;
+            height: 380px;
+        }
+
+        .explorer-sidebar {
+            background: rgba(0, 0, 0, 0.15);
+            border-right: 1px solid var(--card-border);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .explorer-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .explorer-file {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            color: var(--text-muted);
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 13px;
+        }
+
+        .explorer-file:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .explorer-file.active {
+            color: var(--text-main);
+            background: rgba(139, 92, 246, 0.15);
+            border-left: 3px solid var(--accent-purple);
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            font-weight: 500;
+        }
+
+        .explorer-file-icon {
+            color: #fbbf24;
+            font-weight: bold;
+        }
+
+        .explorer-file.java-file .explorer-file-icon {
+            color: #ef4444;
+        }
+
+        /* Presentation cover layout style */
+        .cover-slide-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+        }
+
+        .main-gradient-title {
+            font-size: 54px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ffffff 30%, var(--accent-purple) 70%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .subtitle-cover {
+            font-size: 22px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .author-box {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 24px;
+            width: 300px;
+        }
+
+        .author-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-main);
+        }
+
+        .author-institution {
+            font-size: 12px;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* Speaker notes panel style */
+        .speaker-notes-panel {
+            position: fixed;
+            right: -420px;
+            top: 0;
+            width: 400px;
+            height: 100%;
+            background: #0c0c14;
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            transition: right 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 100;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .speaker-notes-panel.open {
+            right: 0;
+        }
+
+        .notes-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .notes-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .notes-content {
+            flex-grow: 1;
+            padding: 24px;
+            overflow-y: auto;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #d1d5db;
+        }
+
+        .notes-content h4 {
+            color: var(--text-main);
+            margin-bottom: 12px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .notes-content p {
+            margin-bottom: 16px;
+        }
+
+        .notes-content ul {
+            padding-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .notes-content li {
+            margin-bottom: 8px;
+        }
+
+        /* Close notes button */
+        .btn-close-notes {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .btn-close-notes:hover {
+            color: var(--text-main);
+        }
+
+        /* Footer Navigation and Controls */
+        footer {
+            padding: 16px 40px;
+            border-top: 1px solid var(--card-border);
+            background: rgba(10, 10, 16, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .controls-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-control {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-control:hover {
+            background: rgba(139, 92, 246, 0.15);
+            border-color: var(--accent-purple);
+            color: var(--text-main);
+        }
+
+        .btn-control:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            border-color: var(--card-border);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .slide-jump-select {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 0 16px;
+            height: 42px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .slide-jump-select:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            color: var(--text-main);
+        }
+
+        .slide-jump-select option {
+            background-color: var(--bg-secondary);
+            color: var(--text-main);
+        }
+
+        .btn-notes-toggle {
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            color: var(--accent-purple);
+            padding: 0 16px;
+            height: 42px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-notes-toggle:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 12px rgba(139, 92, 246, 0.25);
+        }
+
+        .btn-notes-toggle.active {
+            background: var(--accent-purple);
+            color: #fff;
+            border-color: var(--accent-purple);
+        }
+
+        .keyboard-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: 10px;
+        }
+
+        /* Progress Bar */
+        .progress-bar-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+            width: 0%;
+            transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* High Quality Simulator Styles */
+        .simulator-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            width: 100%;
+            height: 330px;
+            margin-top: 10px;
+        }
+
+        .sim-panel {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sim-canvas {
+            width: 100%;
+            height: 180px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 12px;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .sim-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-main);
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .sim-btn:hover {
+            background: var(--accent-purple);
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Procedural Visual elements */
+        .proc-data-box {
+            position: absolute;
+            top: 25px;
+            left: 20px;
+            width: 110px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+            font-size: 11px;
+            transition: all 0.3s ease;
+        }
+
+        .proc-data-title {
+            font-weight: bold;
+            color: var(--accent-blue);
+            margin-bottom: 4px;
+        }
+
+        .proc-data-attrs {
+            font-size: 9px;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+
+        .proc-func-box {
+            position: absolute;
+            top: 25px;
+            left: 190px;
+            width: 120px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid var(--accent-red);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+            font-size: 11px;
+            transition: all 0.3s ease;
+        }
+
+        .proc-func-title {
+            font-weight: bold;
+            color: var(--accent-red);
+            margin-bottom: 4px;
+        }
+
+        .proc-func-body {
+            font-size: 9px;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+
+        .proc-data-capsule {
+            position: absolute;
+            top: 40px;
+            left: 45px;
+            width: 60px;
+            height: 24px;
+            background: var(--accent-blue);
+            color: #fff;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+            z-index: 5;
+        }
+
+        .proc-console-box {
+            position: absolute;
+            bottom: 15px;
+            left: 20px;
+            right: 20px;
+            height: 40px;
+            background: #06060c;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-family: monospace;
+            font-size: 11px;
+            color: var(--accent-green);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Object Oriented Visual elements */
+        .oo-caller-box {
+            position: absolute;
+            top: 45px;
+            left: 15px;
+            width: 100px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 11px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .oo-object-capsule {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            width: 170px;
+            height: 105px;
+            border-radius: 16px;
+            background: rgba(16, 185, 129, 0.05);
+            border: 2px solid var(--accent-green);
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .oo-object-title {
+            font-size: 10px;
+            font-weight: bold;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            text-align: center;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+            padding-bottom: 2px;
+        }
+
+        .oo-attr-list {
+            font-size: 9px;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 4px;
+            padding: 3px 6px;
+        }
+
+        .oo-method-box {
+            font-size: 9px;
+            font-weight: bold;
+            color: var(--text-main);
+            background: rgba(16, 185, 129, 0.15);
+            border-radius: 4px;
+            padding: 4px 6px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .oo-msg-capsule {
+            position: absolute;
+            top: 50px;
+            left: 45px;
+            background: var(--accent-purple);
+            color: #fff;
+            font-size: 9px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 10px;
+            opacity: 0;
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.6);
+            z-index: 5;
+        }
+
+        .oo-console-box {
+            position: absolute;
+            bottom: 15px;
+            left: 20px;
+            right: 20px;
+            height: 40px;
+            background: #06060c;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-family: monospace;
+            font-size: 11px;
+            color: var(--accent-green);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Inheritance Tree visual classes */
+        .tree-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .tree-node {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 14px 20px;
+            text-align: center;
+            width: 320px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .tree-node:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+        }
+
+        .tree-node-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: var(--text-main);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tree-node-badge {
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--accent-purple);
+            font-size: 9px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .tree-node-fields {
+            font-size: 10px;
+            color: var(--text-muted);
+            line-height: 1.4;
+            text-align: left;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding-top: 6px;
+        }
+
+        .tree-connector-vertical {
+            width: 2px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .tree-branches {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .tree-subnode {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .tree-subnode:hover {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+        }
+
+        .tree-subnode-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--accent-green);
+            margin-bottom: 6px;
+        }
+
+        .tree-subnode-fields {
+            font-size: 9px;
+            color: var(--text-muted);
+            line-height: 1.3;
+            text-align: left;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            padding-top: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background visual decor -->
+    <div class="bg-glow-1"></div>
+    <div class="bg-glow-2"></div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo-area">
+            <span class="logo-badge">UNEMAT</span>
+            <span class="presentation-title">Paradigmas de Linguagens de Programação</span>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <span class="presenter-badge vitor" id="presenterBadge" style="margin-right: 12px;">Apresentador: Vitor</span>
+            <div class="slide-counter" id="slideCounter">Slide 1 / 10</div>
+        </div>
+    </header>
+
+    <!-- MAIN SLIDES DECK CONTAINER -->
+    <main>
+
+        <!-- SLIDE 1: Capa -->
+        <div class="slide active" id="slide-1">
+            <div class="glass-card">
+                <div class="cover-slide-content">
+                    <span class="slide-subtitle">Apresentação Acadêmica</span>
+                    <h1 class="main-gradient-title">Paradigmas de Programação</h1>
+                    <p class="subtitle-cover">Estudo Prático sobre Paradigmas de Programação Através do Desenvolvimento de um Sistema de Zoológico</p>
+
+                    <div class="author-box" style="width: auto; max-width: 500px;">
+                        <span class="author-name"
+                            style="font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Integrantes
+                            do Grupo:</span>
+                        <div
+                            style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 30px; font-weight: 600; font-size: 16px; color: var(--text-main); margin-bottom: 16px;">
+                            <span>Vitor Linsbinski</span>
+                            <span>Inglid Pabline</span>
+                            <span>Fellipe Tomasella</span>
+                            <span>João Vitor</span>
+                        </div>
+                        <span class="author-institution">UNEMAT — Sistemas de Informação</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Objetivo da Explicação -->
+        <div class="slide" id="slide-2">
+            <div class="glass-card">
+                <div class="slide-title-area">
+                    <span class="slide-subtitle">Introdução</span>
+                    <h2 class="slide-title">Objetivo da Explicação</h2>
+                </div>
+                <div class="slide-content">
+                    <div class="col-2">
+                        <div>
+                            <p class="paragraph">Esta apresentação visa estabelecer um contraste prático e conceitual
+                                entre as formas mais tradicionais de organizar e codificar software.</p>
+                            <p class="paragraph">Em vez de focar apenas em teorias abstratas, faremos uma ponte direta
+                                com o <strong>projeto prático do Zoológico</strong> desenvolvido pelo grupo.</p>
+                        </div>
+                        <div class="card-column">
+                            <h3 class="column-header"><span class="bullet-icon"
+                                    style="background-color: var(--accent-purple);"></span>Roteiro Rápido</h3>
+                            <ul class="list-items">
+                                <li class="list-item"><strong>Pensamento:</strong> Como cada paradigma molda a solução
+                                    de problemas.</li>
+                                <li class="list-item"><strong>Exemplo Prático:</strong> Comparativo simples com trechos
+                                    em C e Java.</li>
+                                <li class="list-item"><strong>Análise no Projeto:</strong> Identificar onde aplicamos
+                                    POO e onde utilizamos o fluxo imperativo.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Paradigma Imperativo / Procedural -->
+        <div class="slide" id="slide-3">
+            <div class="glass-card">
+                <div class="slide-title-area">
+                    <span class="slide-subtitle">Conceituação</span>
+                    <h2 class="slide-title">Paradigma Imperativo / Procedural</h2>
+                </div>
+                <div class="slide-content">
+                    <div class="col-2">
+                        <div class="card-column">
+                            <h3 class="column-header"><span class="bullet-icon"
+                                    style="background-color: var(--accent-blue);"></span>Características Principais</h3>
+                            <ul class="list-items" style="margin-top: 10px;">
+                                <li class="list-item"><strong>Foco na Execução:</strong> O programador prescreve uma
+                                    sequência exata de passos e comandos (como uma receita).</li>
+                                <li class="list-item"><strong>Separação de Elementos:</strong> Os dados (estruturas)
+                                    ficam separados dos procedimentos (funções) que os operam.</li>
+                                <li class="list-item"><strong>Controle de Fluxo:</strong> Guiado fortemente por laços
+                                    (`for`, `while`) e desvios condicionais (`if`, `switch`).</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="paragraph" style="margin-top: 10px;">No modelo procedural, as funções agem de fora
+                                sobre as estruturas de dados que lhes são enviadas.</p>
+                            <p class="paragraph">Este paradigma é amplamente encontrado em ferramentas de automação,
+                                scripts rápidos de sistema e na tradicional linguagem <strong>C clássica</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Paradigma Orientado a Objetos -->
+        <div class="slide" id="slide-4">
+            <div class="glass-card">
+                <div class="slide-title-area">
+                    <span class="slide-subtitle">Conceituação</span>
+                    <h2 class="slide-title">Paradigma Orientado a Objetos</h2>
+                </div>
+                <div class="slide-content">
+                    <div class="col-2">
+                        <div>
+                            <p class="paragraph">A Programação Orientada a Objetos (POO) surge com a ideia de aproximar
+                                o código de elementos e conceitos do mundo real.</p>
+                            <p class="paragraph">Em vez de organizar o sistema como uma esteira de funções que operam
+                                dados soltos, modelamos <strong>entidades autônomas</strong> chamadas objetos.</p>
+                        </div>
+                        <div class="card-column">
+                            <h3 class="column-header"><span class="bullet-icon"
+                                    style="background-color: var(--accent-green);"></span>Pilares da POO</h3>
+                            <ul class="list-items">
+                                <li class="list-item"><strong>Encapsulamento:</strong> Proteção e união de dados
+                                    (atributos) e código (métodos) na mesma estrutura.</li>
+                                <li class="list-item"><strong>Herança:</strong> Especialização de classes gerais para
+                                    filhas (reuso de atributos/comportamentos).</li>
+                                <li class="list-item"><strong>Polimorfismo:</strong> Permite que um mesmo comportamento
+                                    se comporte de formas distintas em classes filhas.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Árvore de Herança e Diagrama de Classes -->
+        <div class="slide" id="slide-5">
+            <div class="glass-card">
+                <div class="slide-title-area">
+                    <span class="slide-subtitle">Estrutura Orientada a Objetos</span>
+                    <h2 class="slide-title">Árvore de Herança e Diagrama de Classes Completo</h2>
+                </div>
+                <div class="slide-content vertical" style="justify-content: center; align-items: center;">
+                    
+                    <!-- Unified Tree Diagram Container -->
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1060px; margin: 0 auto;">
+                        
+                        <!-- Tier 1: Zoologico (Root System Controller) -->
+                        <div class="tree-node" style="border-color: var(--accent-blue); background: rgba(59, 130, 246, 0.05); width: 380px; padding: 14px 24px; box-shadow: 0 0 25px rgba(59, 130, 246, 0.15);">
+                            <div class="tree-node-title" style="font-size: 18px; margin-bottom: 6px;">
+                                <span style="color: var(--accent-blue); font-weight: 700;">Zoologico</span>
+                                <span class="tree-node-badge" style="background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); font-size: 11px; padding: 2px 8px;">Controle</span>
+                            </div>
+                            <div class="tree-node-fields" style="font-size: 12.5px; padding-top: 8px; line-height: 1.45;">
+                                <strong>Atributos:</strong> ArrayList&lt;Animal&gt; animais, ArrayList&lt;Tratador&gt; tratadores<br>
+                                <strong>Métodos:</strong> cadastrarAnimal(), cadastrarTratador()
+                            </div>
+                        </div>
+
+                        <!-- Branching line from Zoologico to LEVEL 2 -->
+                        <div style="display: flex; flex-direction: column; align-items: center; width: 680px; height: 28px; position: relative;">
+                            <div style="width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15);"></div>
+                            <div style="width: 100%; height: 2px; background: rgba(255, 255, 255, 0.15);"></div>
+                        </div>
+
+                        <!-- Tier 2: Tratador and Animal (Parallel Nodes) -->
+                        <div style="display: flex; justify-content: space-between; width: 960px; position: relative; margin-top: -2px;">
+                            <!-- Vertical line down to Tratador -->
+                            <div style="position: absolute; left: 150px; top: -14px; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15);"></div>
+                            <!-- Vertical line down to Animal -->
+                            <div style="position: absolute; right: 170px; top: -14px; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15);"></div>
+
+                            <!-- Tratador Box (Left) -->
+                            <div class="tree-node" style="border-color: var(--accent-orange); background: rgba(245, 158, 11, 0.05); width: 300px; padding: 14px 24px; box-shadow: 0 0 25px rgba(245, 158, 11, 0.12);">
+                                <div class="tree-node-title" style="font-size: 18px; margin-bottom: 6px;">
+                                    <span style="color: var(--accent-orange); font-weight: 700;">Tratador</span>
+                                    <span class="tree-node-badge" style="background: rgba(245, 158, 11, 0.15); color: var(--accent-orange); font-size: 11px; padding: 2px 8px;">Associação</span>
+                                </div>
+                                <div class="tree-node-fields" style="font-size: 12.5px; padding-top: 8px; line-height: 1.45;">
+                                    <strong>Atributos:</strong> int matricula, String nome<br>
+                                    <strong>Métodos:</strong> imprimir(), toString()
+                                </div>
+                            </div>
+
+                            <!-- Association Arrow Line in the middle -->
+                            <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; margin: 0 24px;">
+                                <div style="width: 100%; border-bottom: 2px dashed rgba(255, 255, 255, 0.25); position: relative; height: 0; margin-top: 5px;">
+                                    <!-- Arrow pointing to Tratador (left) and/or Animal (right) -->
+                                    <div style="position: absolute; right: 0; top: -4px; width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-left: 6px solid var(--accent-purple);"></div>
+                                    <div style="position: absolute; left: 0; top: -4px; width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-right: 6px solid var(--accent-orange);"></div>
+                                </div>
+                                <span style="font-size: 11px; color: var(--text-muted); background: var(--bg-secondary); padding: 3px 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.06); margin-top: -10px; z-index: 5;">atribuído a</span>
+                            </div>
+
+                            <!-- Animal Superclass Box (Right) -->
+                            <div class="tree-node" style="border-color: var(--accent-purple); background: rgba(139, 92, 246, 0.05); width: 340px; padding: 14px 24px; box-shadow: 0 0 25px rgba(139, 92, 246, 0.15);">
+                                <div class="tree-node-title" style="font-size: 18px; margin-bottom: 6px;">
+                                    <span style="color: var(--accent-purple); font-weight: 700;">Animal</span>
+                                    <span class="tree-node-badge" style="background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); font-size: 11px; padding: 2px 8px;">Superclasse</span>
+                                </div>
+                                <div class="tree-node-fields" style="font-size: 12.5px; padding-top: 8px; line-height: 1.45;">
+                                    <strong>Atributos:</strong> id, nome, especie, idade, <i>Tratador tratador</i><br>
+                                    <strong>Métodos:</strong> comer(), dormir(), imprimir()
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Connector down from Animal to Subclasses -->
+                        <div style="display: flex; flex-direction: column; align-items: center; width: 960px; height: 28px; position: relative;">
+                            <!-- Vertical line down from Animal center (170px from right) -->
+                            <div style="position: absolute; right: 170px; top: 0; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15);"></div>
+                            <!-- Horizontal branching line centered under subclasses (covering left: 330px to right: 90px) -->
+                            <div style="position: absolute; left: 330px; right: 90px; top: 14px; height: 2px; background: rgba(255, 255, 255, 0.15);"></div>
+                        </div>
+
+                        <!-- Tier 3: The 4 Subclasses (Grid spanning from center to right side) -->
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; width: 960px; padding-left: 240px; margin-top: -2px;">
+                            
+                            <!-- Leão -->
+                            <div class="tree-subnode" style="position: relative; padding: 12px; border-color: rgba(16, 185, 129, 0.25); background: rgba(16, 185, 129, 0.03);">
+                                <div style="position: absolute; top: -14px; left: 50%; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15); transform: translateX(-50%);"></div>
+                                <div class="tree-subnode-title" style="font-size: 14px; margin-bottom: 4px; font-weight: 700;">Leão</div>
+                                <div class="tree-subnode-fields" style="font-size: 11px; line-height: 1.35;">
+                                    • rugir()<br>
+                                    • imprimir() <span style="color: var(--accent-purple); font-weight: 500;">(override)</span>
+                                </div>
+                            </div>
+
+                            <!-- Elefante -->
+                            <div class="tree-subnode" style="position: relative; padding: 12px; border-color: rgba(16, 185, 129, 0.25); background: rgba(16, 185, 129, 0.03);">
+                                <div style="position: absolute; top: -14px; left: 50%; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15); transform: translateX(-50%);"></div>
+                                <div class="tree-subnode-title" style="font-size: 14px; margin-bottom: 4px; font-weight: 700;">Elefante</div>
+                                <div class="tree-subnode-fields" style="font-size: 11px; line-height: 1.35;">
+                                    • tomarBanho()<br>
+                                    • imprimir() <span style="color: var(--accent-purple); font-weight: 500;">(override)</span>
+                                </div>
+                            </div>
+
+                            <!-- Macaco -->
+                            <div class="tree-subnode" style="position: relative; padding: 12px; border-color: rgba(16, 185, 129, 0.25); background: rgba(16, 185, 129, 0.03);">
+                                <div style="position: absolute; top: -14px; left: 50%; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15); transform: translateX(-50%);"></div>
+                                <div class="tree-subnode-title" style="font-size: 14px; margin-bottom: 4px; font-weight: 700;">Macaco</div>
+                                <div class="tree-subnode-fields" style="font-size: 11px; line-height: 1.35;">
+                                    • pular()<br>
+                                    • imprimir() <span style="color: var(--accent-purple); font-weight: 500;">(override)</span>
+                                </div>
+                            </div>
+
+                            <!-- Cobra -->
+                            <div class="tree-subnode" style="position: relative; padding: 12px; border-color: rgba(16, 185, 129, 0.25); background: rgba(16, 185, 129, 0.03);">
+                                <div style="position: absolute; top: -14px; left: 50%; width: 2px; height: 14px; background: rgba(255, 255, 255, 0.15); transform: translateX(-50%);"></div>
+                                <div class="tree-subnode-title" style="font-size: 14px; margin-bottom: 4px; font-weight: 700;">Cobra</div>
+                                <div class="tree-subnode-fields" style="font-size: 11px; line-height: 1.35;">
+                                    • peçonhenta (bool)<br>
+                                    • rastejar()<br>
+                                    • imprimir() <span style="color: var(--accent-purple); font-weight: 500;">(override)</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Comparação Prática de Código (C vs Java) -->
+        <div class="slide" id="slide-6">
+            <div class="glass-card">
+                <div class="slide-title-area">
+                    <span class="slide-subtitle">Demonstração Prática</span>
+                    <h2 class="slide-title">Diferença de Código: Procedural vs Orientado a Objetos</h2>
+                </div>
+                <div class="slide-content">
+                    <div class="col-2" style="align-items: stretch; gap: 20px; height: 100%;">
+                        
+                        <!-- Coluna Esquerda: C (Procedural) -->
+                        <div class="code-container">
+                            <div class="code-header">
+                                <div class="code-window-dots">
+                                    <span class="code-window-dot red"></span>
+                                    <span class="code-window-dot yellow"></span>
+                                    <span class="code-window-dot green"></span>
+                                </div>
+                                <span class="code-lang-tag">Estruturado (C)</span>
+                            </div>
+                            <pre class="code-body" style="font-size: 11px; padding: 10px; line-height: 1.3;"><code><span class="syn-keyword">typedef struct</span> {
+    <span class="syn-type">char</span> nome[<span class="syn-number">50</span>];
+    <span class="syn-type">int</span> idade;
+} <span class="syn-type">Animal</span>;
+
+<span class="syn-type">void</span> <span class="syn-def">imprimir</span>(<span class="syn-type">Animal</span> a) {
+    printf(<span class="syn-string">"Nome: %s\n"</span>, a.nome);
+}
+
+<span class="syn-type">int</span> <span class="syn-def">main</span>() {
+    <span class="syn-type">Animal</span> a = {<span class="syn-string">"Simba"</span>, <span class="syn-number">7</span>};
+    <span class="syn-method">imprimir</span>(a); <span class="syn-comment">// Dados enviados à função</span>
+    <span class="syn-keyword">return</span> <span class="syn-number">0</span>;
+}</code></pre>
+                        </div>
+
+                        <!-- Coluna Direita: Java (OO) -->
+                        <div class="code-container">
+                            <div class="code-header">
+                                <div class="code-window-dots">
+                                    <span class="code-window-dot red"></span>
+                                    <span class="code-window-dot yellow"></span>
+                                    <span class="code-window-dot green"></span>
+                                </div>
+                                <span class="code-lang-tag">Orientado a Objetos (Java)</span>
+                            </div>
+                            <pre class="code-body" style="font-size: 11px; padding: 10px; line-height: 1.3;"><code><span class="syn-keyword">public class</span> <span class="syn-type">Animal</span> {
+    <span class="syn-type">String</span> nome;
+    <span class="syn-type">int</span> idade;
+
+    <span class="syn-type">Animal</span>(<span class="syn-type">String</span> nome, <span class="syn-type">int</span> idade) {
+        <span class="syn-keyword">this</span>.nome = nome;
+        <span class="syn-keyword">this</span>.idade = idade;
+    }
+
+    <span class="syn-type">void</span> <span class="syn-def">imprimir</span>() {
+        System.out.println(nome);
+    }
+}
+
+<span class="syn-comment">// Uso no código principal:</span>
+<span class="syn-type">Animal</span> a = <span class="syn-keyword">new</span> <span class="syn-type">Animal</span>(<span class="syn-string">"Simba"</span>, <span class="syn-number">7</span>);
+a.imprimir(); <span class="syn-comment">// O próprio objeto age</span></code></pre>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: Comparação Prática & Simulador -->
+        <div class="slide" id="slide-7">
+            <div class="glass-card">
+                <div class="slide-title-area">
+                    <span class="slide-subtitle">Simulador de Fluxo</span>
+                    <h2 class="slide-title">Comparação Direta e Interativa</h2>
+                </div>
+                <div class="slide-content vertical">
+                    <p class="paragraph" style="font-size: 15px; margin-bottom: 12px; text-align: center;">Clique em
+                        simular para visualizar a diferença de interação em memória de cada paradigma:</p>
+
+                    <div class="simulator-box">
+                        <!-- Procedural Panel -->
+                        <div class="sim-panel">
+                            <span class="sim-title">Paradigma Procedural</span>
+                            <div class="sim-canvas">
+                                <div class="proc-data-box">
+                                    <div class="proc-data-title">Struct Animal</div>
+                                    <div class="proc-data-attrs">char nome[50];<br>int idade;</div>
+                                </div>
+                                <div class="proc-data-capsule" id="procDataCapsule">dados (a)</div>
+                                <div class="proc-func-box">
+                                    <div class="proc-func-title">imprimir()</div>
+                                    <div class="proc-func-body">printf(a.nome);</div>
+                                </div>
+                                <div class="proc-console-box" id="procConsole"></div>
+                            </div>
+                            <button class="sim-btn" onclick="animateProcedural()">Simular Procedural</button>
+                        </div>
+
+                        <!-- OO Panel -->
+                        <div class="sim-panel">
+                            <span class="sim-title">Orientação a Objetos</span>
+                            <div class="sim-canvas">
+                                <div class="oo-caller-box">
+                                    <strong>Main:</strong><br>a.imprimir();
+                                </div>
+                                <div class="oo-msg-capsule" id="ooMsgCapsule">imprimir()</div>
+                                <div class="oo-object-capsule" id="ooObjectCapsule">
+                                    <div class="oo-object-title">Objeto Simba (Animal)</div>
+                                    <div class="oo-attr-list">
+                                        nome: "Simba"<br>idade: 7
+                                    </div>
+                                    <div class="oo-method-box">
+                                        imprimir() { ... }
+                                    </div>
+                                </div>
+                                <div class="oo-console-box" id="ooConsole"></div>
+                            </div>
+                            <button class="sim-btn" onclick="animateOO()">Simular Orientação a Objetos</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Os paradigmas no nosso projeto -->
+        <div class="slide" id="slide-8">
+            <div class="glass-card">
+                <div class="slide-title-area">
+                    <span class="slide-subtitle">Estudo de Caso</span>
+                    <h2 class="slide-title">Como isso se aplica no nosso Sistema?</h2>
+                </div>
+                <div class="slide-content">
+                    <div class="col-2">
+                        <div>
+                            <p class="paragraph">O nosso projeto do Zoológico em Java utiliza uma <strong>arquitetura
+                                     híbrida de fato</strong>, embora a modelagem de dados seja puramente estruturada em
+                                 POO.</p>
+                            <ul class="list-items" style="margin-bottom: 20px;">
+                                <li class="list-item"><strong>Classes de Domínio (POO):</strong> `Animal`, `Tratador` e
+                                    as subclasses (`Leao`, `Cobra` etc.) representam objetos reais, aplicando Herança
+                                    (`extends`) e Polimorfismo.</li>
+                                <li class="list-item"><strong>Fluxo de Menu (Procedural):</strong> A classe `Main.java`
+                                    contém funções e laços tradicionais que decidem o fluxo imperativo de telas e ações.
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-column">
+                            <h3 class="column-header"><span class="bullet-icon"
+                                     style="background-color: var(--accent-green);"></span>Estrutura do Sistema</h3>
+                            <div style="font-size: 14px; line-height: 1.6; color: var(--text-muted);">
+                                <strong>Paradigmas_Zoologico/</strong><br>
+                                ├── <span style="color: var(--accent-purple);">Animal.java</span> (Classe Base)<br>
+                                ├── <span style="color: var(--accent-purple);">Leao.java</span> / <span
+                                    style="color: var(--accent-purple);">Cobra.java</span> (Heranças)<br>
+                                ├── <span style="color: var(--accent-purple);">Zoologico.java</span> (Gerenciamento
+                                OO)<br>
+                                └── <span style="color: var(--accent-blue);">Main.java</span> (Fluxo Iterativo
+                                Imperativo)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: Pontos Chaves do Código -->
+        <div class="slide" id="slide-9">
+            <div class="glass-card">
+                <div class="slide-title-area">
+                    <span class="slide-subtitle">Análise de Código</span>
+                    <h2 class="slide-title">Exploração de Código do Projeto</h2>
+                </div>
+                <div class="slide-content vertical">
+                    <div class="project-explorer">
+                        <div class="explorer-sidebar">
+                            <div class="explorer-title">Arquivos do Projeto</div>
+                            <button class="explorer-file active java-file"
+                                onclick="showProjectFile('animal-code', this)">
+                                <span class="explorer-file-icon">☕</span> Animal.java
+                            </button>
+                            <button class="explorer-file java-file" onclick="showProjectFile('leao-code', this)">
+                                <span class="explorer-file-icon">☕</span> Leao.java
+                            </button>
+                            <button class="explorer-file java-file" onclick="showProjectFile('zoo-code', this)">
+                                <span class="explorer-file-icon">☕</span> Zoologico.java
+                            </button>
+                            <button class="explorer-file java-file" onclick="showProjectFile('main-code', this)">
+                                <span class="explorer-file-icon">☕</span> Main.java
+                            </button>
+                        </div>
+
+                        <div style="flex-grow: 1; height: 100%; overflow: hidden; position: relative;">
+
+                            <!-- Animal.java Code -->
+                            <div id="animal-code" class="tab-content active" style="height: 100%;">
+                                <div class="code-container" style="border-radius: 0; border: none;">
+                                    <pre class="code-body" style="font-size: 12px; padding: 12px;"><code><span class="syn-keyword">class</span> <span class="syn-type">Animal</span> {
+    <span class="syn-type">int</span> id;
+    <span class="syn-type">String</span> nome;
+    <span class="syn-type">String</span> especie;
+    <span class="syn-type">int</span> idade;
+
+    <span class="syn-type">Animal</span>(<span class="syn-type">int</span> id, <span class="syn-type">String</span> nome, <span class="syn-type">String</span> especie, <span class="syn-type">int</span> idade) {
+        <span class="syn-keyword">this</span>.id = id;
+        <span class="syn-keyword">this</span>.nome = nome;
+        <span class="syn-keyword">this</span>.especie = especie;
+        <span class="syn-keyword">this</span>.idade = idade;
+    }
+
+    <span class="syn-type">void</span> <span class="syn-def">imprimir</span>() {
+        System.out.println(<span class="syn-string">"ID: "</span> + id);
+        System.out.println(<span class="syn-string">"Nome: "</span> + nome);
+        System.out.println(<span class="syn-string">"Espécie: "</span> + especie);
+    }
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <!-- Leao.java Code -->
+                            <div id="leao-code" class="tab-content" style="height: 100%;">
+                                <div class="code-container" style="border-radius: 0; border: none;">
+                                    <pre class="code-body" style="font-size: 12px; padding: 12px;"><code><span class="syn-comment">// Demonstração Prática de Herança em Java</span>
+<span class="syn-keyword">class</span> <span class="syn-type">Leao</span> <span class="syn-keyword">extends</span> <span class="syn-type">Animal</span> {
+
+    <span class="syn-type">Leao</span>(<span class="syn-type">int</span> id, <span class="syn-type">String</span> nome, <span class="syn-type">int</span> idade) {
+        <span class="syn-keyword">super</span>(id, nome, <span class="syn-string">"Leão"</span>, idade); <span class="syn-comment">// Reuso do Construtor Pai</span>
+    }
+
+    <span class="syn-type">void</span> <span class="syn-def">rugir</span>() {
+        System.out.println(nome + <span class="syn-string">" está rugindo"</span>);
+    }
+
+    <span class="syn-keyword">@Override</span>
+    <span class="syn-type">void</span> <span class="syn-def">imprimir</span>() {
+        System.out.println(<span class="syn-string">"=== Leão ==="</span>);
+        <span class="syn-keyword">super</span>.imprimir(); <span class="syn-comment">// Polimorfismo e extensão</span>
+        rugir();
+    }
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <!-- Zoologico.java Code -->
+                            <div id="zoo-code" class="tab-content" style="height: 100%;">
+                                <div class="code-container" style="border-radius: 0; border: none;">
+                                    <pre class="code-body" style="font-size: 12px; padding: 12px;"><code><span class="syn-keyword">import</span> java.util.ArrayList;
+
+<span class="syn-keyword">class</span> <span class="syn-type">Zoologico</span> {
+    ArrayList&lt;<span class="syn-type">Animal</span>&gt; animais = <span class="syn-keyword">new</span> ArrayList&lt;&gt;();
+
+    <span class="syn-type">void</span> <span class="syn-def">cadastrarAnimal</span>(<span class="syn-type">Animal</span> a) {
+        animais.add(a); <span class="syn-comment">// Armazena referências de Objetos</span>
+    }
+
+    <span class="syn-type">Animal</span> <span class="syn-def">buscarAnimalPorId</span>(<span class="syn-type">int</span> id) {
+        <span class="syn-keyword">for</span> (<span class="syn-type">Animal</span> a : animais) {
+            <span class="syn-keyword">if</span> (a.id == id) <span class="syn-keyword">return</span> a;
+        }
+        <span class="syn-keyword">return null</span>;
+    }
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <!-- Main.java Code -->
+                            <div id="main-code" class="tab-content" style="height: 100%;">
+                                <div class="code-container" style="border-radius: 0; border: none;">
+                                    <pre class="code-body" style="font-size: 12px; padding: 12px; overflow-y: auto;"><code><span class="syn-keyword">public class</span> <span class="syn-type">Main</span> {
+    <span class="syn-keyword">static</span> <span class="syn-type">Zoologico</span> zoo = <span class="syn-keyword">new</span> <span class="syn-type">Zoologico</span>();
+
+    <span class="syn-keyword">public static</span> <span class="syn-type">void</span> <span class="syn-def">main</span>(<span class="syn-type">String</span>[] args) {
+        <span class="syn-type">int</span> opcao;
+        <span class="syn-keyword">do</span> {
+            mostrarMenu();
+            opcao = lerOpcao();
+            
+            <span class="syn-comment">// Fluxo puramente imperativo/procedural</span>
+            <span class="syn-keyword">switch</span> (opcao) {
+                <span class="syn-keyword">case</span> <span class="syn-number">1</span>: cadastrarAnimal(); <span class="syn-keyword">break</span>;
+                <span class="syn-keyword">case</span> <span class="syn-number">2</span>: zoo.listarAnimais(); <span class="syn-keyword">break</span>;
+                <span class="syn-keyword">case</span> <span class="syn-number">0</span>: System.out.println(<span class="syn-string">"Saindo..."</span>); <span class="syn-keyword">break</span>;
+            }
+        } <span class="syn-keyword">while</span> (opcao != <span class="syn-number">0</span>);
+    }
+}</code></pre>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: Execução Prática -->
+        <div class="slide" id="slide-10">
+            <div class="glass-card">
+                <div class="cover-slide-content">
+                    <span class="slide-subtitle">Demonstração Prática</span>
+                    <h1 class="main-gradient-title" style="font-size: 58px;">Execução do Programa</h1>
+                    <p class="subtitle-cover" style="margin-bottom: 35px; max-width: 700px;">A seguir, faremos a
+                        execução real do sistema para visualizar a aplicação prática de todos os conceitos de paradigmas
+                        no Zoológico.</p>
+
+                    <div class="author-box"
+                        style="width: auto; padding: 20px 50px; background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                        <span class="author-institution" style="margin-bottom: 6px;">O que iremos demonstrar
+                            agora:</span>
+                        <div
+                            style="font-size: 14px; color: var(--text-muted); text-align: left; line-height: 1.6; display: flex; flex-direction: column; gap: 6px;">
+                            <div>• <strong>Fluxo Imperativo/Procedural:</strong> CRUD rodando no console através do menu
+                                da <code>Main.java</code>.</div>
+                            <div>• <strong>Orientação a Objetos na Prática:</strong> Funcionamento de herança,
+                                polimorfismo e vinculação de objetos.</div>
+                            <div>• <strong>Interface Gráfica (Swing):</strong> Controle do mesmo CRUD de forma visual
+                                via <code>MainGUI.java</code>.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- SPEAKER NOTES SIDE PANEL -->
+    <div class="speaker-notes-panel" id="speakerNotesPanel">
+        <div class="notes-header">
+            <h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 20h9M3 20v-8a2 2 0 0 1 2-2h4M3 12a9 9 0 0 1 15-7v5" />
+                    <path d="M17 14l2 2 4-4" />
+                </svg>
+                Notas de Apresentação
+            </h3>
+            <button class="btn-close-notes" onclick="toggleNotes()">×</button>
+        </div>
+        <div class="notes-content" id="speakerNotesContent">
+            Carregando notas...
+        </div>
+    </div>
+
+    <!-- FOOTER NAVIGATION AND STATUS -->
+    <footer>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="controls-left">
+            <button class="btn-control" id="btnPrev" onclick="navigateSlide(-1)">◀</button>
+            <button class="btn-control" id="btnNext" onclick="navigateSlide(1)">▶</button>
+
+            <select class="slide-jump-select" id="slideSelector" onchange="jumpToSlide(this.value)">
+                <option value="1">Slide 1 — Capa</option>
+                <option value="2">Slide 2 — Objetivo</option>
+                <option value="3">Slide 3 — Paradigma Procedural</option>
+                <option value="4">Slide 4 — Paradigma OO</option>
+                <option value="5">Slide 5 — Árvore de Herança</option>
+                <option value="6">Slide 6 — Código Comparativo</option>
+                <option value="7">Slide 7 — Simulador Interativo</option>
+                <option value="8">Slide 8 — Paradigmas no Projeto</option>
+                <option value="9">Slide 9 — Código do Projeto</option>
+                <option value="10">Slide 10 — Execução Prática</option>
+            </select>
+
+            <span class="keyboard-hint">Atalhos: ← / → / Espaço</span>
+        </div>
+
+        <div>
+            <button class="btn-notes-toggle" id="btnNotesToggle" onclick="toggleNotes()">
+                <span>📝</span> Notas do Apresentador [N]
+            </button>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE SCRIPTS -->
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const slideSelector = document.getElementById('slideSelector');
+        const slideCounter = document.getElementById('slideCounter');
+        const progressBar = document.getElementById('progressBar');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        const speakerNotesPanel = document.getElementById('speakerNotesPanel');
+        const speakerNotesContent = document.getElementById('speakerNotesContent');
+        const btnNotesToggle = document.getElementById('btnNotesToggle');
+
+        let currentSlideIndex = 0;
+
+        // Speaker notes repository mapped by slide index (0-based)
+        const speakerNotes = [
+            // Slide 1
+            `<h4>Apresentação e Capa</h4>
+             <p><strong>Falas sugeridas:</strong></p>
+             <ul>
+                <li>Cumprimente a banca examinadora e o professor.</li>
+                <li>Apresente o grupo: "Esta apresentação foi desenvolvida por Vitor, Fellipe, Inglid Pabline e por mim, João Vitor."</li>
+                <li>Diga o tema: "O Vitor começará apresentando a base teórica e estrutural e depois eu explicarei as diferenças em código e no simulador."</li>
+                <li>Contextualize que esta análise se apoia no sistema de Zoológico desenvolvido pelo grupo em Java.</li>
+             </ul>`,
+            // Slide 2
+            `<h4>Objetivo da Apresentação</h4>
+             <p><strong>Falas sugeridas:</strong></p>
+             <ul>
+                <li>"O objetivo de hoje é ir além do conceito de dicionário e ver como a mudança de paradigma impacta a nossa forma de planejar e programar."</li>
+                <li>"Veremos em código simples como as duas linguagens (C e Java) resolvem o mesmo problema básico".</li>
+                <li>"Por fim, vou guiar vocês pelos pontos exatos do nosso repositório de Zoológico onde combinamos essas abordagens."</li>
+             </ul>`,
+            // Slide 3
+            `<h4>Conceito do Paradigma Procedural</h4>
+             <p><strong>Falas sugeridas:</strong></p>
+             <ul>
+                <li>"No paradigma procedural ou imperativo, pensamos em computação como receitas de bolo: uma sequência ordenada de ações ou comandos."</li>
+                <li>"Aqui, dados e processos estão em caixas separadas. Nós criamos variáveis e as enviamos para fora, em funções independentes, que as editam e nos trazem um resultado."</li>
+                <li>"É um fluxo passo a passo claro, muito bom para scripts e programas simples de terminal."</li>
+             </ul>`,
+            // Slide 4
+            `<h4>Conceito do Paradigma Orientado a Objetos</h4>
+             <p><strong>Falas sugeridas:</strong></p>
+             <ul>
+                <li>"Na Programação Orientada a Objetos, a perspectiva muda de instruções para atores ativos: os Objetos."</li>
+                <li>"Nós juntamos os atributos de dados e as operações num mesmo bloco fechado. É o conceito de <strong>Encapsulamento</strong>."</li>
+                <li>"O objeto não é passivo; ele possui inteligência própria e responde a estímulos."</li>
+             </ul>`,
+            // Slide 5
+            `<h4>Modelagem do Domínio e Diagrama de Classes</h4>
+             <p><strong>Falas sugeridas:</strong></p>
+             <ul>
+                <li>"Aqui visualizamos a arquitetura unificada de classes do nosso sistema de Zoológico em uma árvore de relações completa".</li>
+                <li>"No topo, temos a classe <code>Zoologico</code>, que gerencia todo o sistema e possui coleções dinâmicas de animais e tratadores."</li>
+                <li>"No nível intermediário, vemos a associação: cada <code>Animal</code> está vinculado a um <code>Tratador</code> específico, estabelecendo uma relação direta de cuidado."</li>
+                <li>"E na base, temos a hierarquia de herança pura: as quatro subclasses especializadas (<code>Leao</code>, <code>Elefante</code>, <code>Macaco</code> e <code>Cobra</code>) herdam a superclasse <code>Animal</code>, estendendo seus comportamentos e aplicando polimorfismo ao sobrescrever o método <code>imprimir()</code>."</li>
+                <li>"Agora passo a palavra para o João Vitor falar sobre as diferenças práticas no código e no simulador."</li>
+             </ul>`,
+            // Slide 6
+            `<h4>Código Comparativo: C vs Java</h4>
+             <p><strong>Falas sugeridas:</strong></p>
+             <ul>
+                <li>"Obrigado, Vitor. Agora que entendemos os conceitos, vamos ver como essas diferenças se traduzem na prática, comparando o código diretamente."</li>
+                <li>"À esquerda em C (Procedural), observem como os dados e as funções estão separados: declaramos uma <code>struct Animal</code> passiva e, externamente, criamos a função <code>imprimir</code>, enviando a variável como parâmetro no <code>main</code>."</li>
+                <li>"À direita em Java (OO), os atributos e a lógica de impressão estão encapsulados juntos dentro da mesma classe <code>Animal</code>. Nós enviamos uma mensagem para que a instância execute seu próprio método chamando <code>a.imprimir()</code>."</li>
+             </ul>`,
+            // Slide 7
+            `<h4>Comparador e Simulação</h4>
+             <p><strong>Falas sugeridas:</strong></p>
+             <ul>
+                <li>"Vamos entender visualmente no simulador:"</li>
+                <li>Clique no botão <strong>Simular Procedural</strong> e explique: "Os dados da Struct Animal saem do local físico e são lidos por uma função independente que está fora".</li>
+                <li>Clique no botão <strong>Simular Orientação a Objetos</strong> e explique: "No OO, a mensagem 'imprimir()' atinge a bolha do Objeto, e as variáveis são processadas dentro dele de maneira encapsulada".</li>
+             </ul>`,
+            // Slide 8
+            `<h4>Paradigmas no Projeto Prático</h4>
+             <p><strong>Falas sugeridas:</strong></p>
+             <ul>
+                <li>"No nosso sistema de Zoológico, usamos ambos os modelos. O domínio real do zoológico é modelado estritamente em POO".</li>
+                <li>"Temos a superclasse <code>Animal</code> e classes especializadas como <code>Leao</code> e <code>Cobra</code> aplicando herança e polimorfismo".</li>
+                <li>"Por outro lado, o fluxo de entrada e controle do console em <code>Main.java</code> usa a abordagem imperativa tradicional com um laço <code>do-while</code> e um grande <code>switch</code> de escolhas."</li>
+             </ul>`,
+            // Slide 9
+            `<h4>Pontos Chave do Código Real</h4>
+             <p><strong>Falas sugeridas:</strong></p>
+             <ul>
+                <li>Clique nas abas laterais do painel da esquerda para alternar o arquivo e mostrar ao avaliador.</li>
+                <li>"No <code>Animal.java</code>, estruturamos os atributos base e o comportamento <code>imprimir</code>".</li>
+                <li>"No <code>Leao.java</code>, usamos <code>extends Animal</code> e o construtor chama <code>super(...)</code> para instanciar o construtor pai".</li>
+                <li>"Em <code>Zoologico.java</code>, as listas gerenciadas encapsulam as regras do CRUD."</li>
+                <li>"E na <code>Main.java</code>, organizamos as chamadas de funções sequenciais para ler opções do teclado."</li>
+             </ul>`,
+            // Slide 10
+            `<h4>Execução Prática do Sistema</h4>
+             <p><strong>Falas sugeridas:</strong></p>
+             <ul>
+                <li>"Para encerrar nossa apresentação teórica, faremos agora a demonstração prática do software que desenvolvemos."</li>
+                <li>"Vou executar o sistema primeiro pelo console para demonstrar a estrutura procedural de menus da <code>Main.java</code>".</li>
+                <li>"Em seguida, abriremos a interface gráfica <code>MainGUI.java</code> para validar visualmente o encapsulamento, o polimorfismo na listagem de animais e a atribuição de tratadores."</li>
+                <li>Transicione para a IDE e execute o projeto!</li>
+             </ul>`
+        ];
+
+        // Presenter mapping for each slide index
+        const presenterMapping = [
+            "Vitor",       // Slide 1: Capa
+            "Vitor",       // Slide 2: Objetivo
+            "Vitor",       // Slide 3: Conceito Procedural
+            "Vitor",       // Slide 4: Conceito OO
+            "Vitor",       // Slide 5: Árvore de Herança
+            "João Vitor",  // Slide 6: Código Comparativo C vs Java
+            "João Vitor",  // Slide 7: Simulador
+            "João Vitor",  // Slide 8: Nosso Projeto
+            "João Vitor",  // Slide 9: Código do Projeto
+            "João Vitor"   // Slide 10: Execução Prática
+        ];
+
+        // Updates display state to render the active slide
+        function updatePresentation() {
+            slides.forEach((slide, idx) => {
+                if (idx === currentSlideIndex) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            // Update footer controls
+            slideSelector.value = (currentSlideIndex + 1).toString();
+            slideCounter.textContent = `Slide ${currentSlideIndex + 1} / ${slides.length}`;
+
+            // Update presenter badge
+            const presenter = presenterMapping[currentSlideIndex];
+            const presenterBadge = document.getElementById('presenterBadge');
+            presenterBadge.textContent = `Apresentador: ${presenter}`;
+            if (presenter === "Vitor") {
+                presenterBadge.className = "presenter-badge vitor";
+            } else {
+                presenterBadge.className = "presenter-badge joao";
+            }
+
+            // Progress calculation
+            const progress = (currentSlideIndex / (slides.length - 1)) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            btnPrev.disabled = currentSlideIndex === 0;
+            btnNext.disabled = currentSlideIndex === slides.length - 1;
+
+            // Load speaker notes
+            speakerNotesContent.innerHTML = speakerNotes[currentSlideIndex];
+        }
+
+        // Navigate slide decks offset (e.g. +1 for next, -1 for previous)
+        function navigateSlide(direction) {
+            const nextIdx = currentSlideIndex + direction;
+            if (nextIdx >= 0 && nextIdx < slides.length) {
+                currentSlideIndex = nextIdx;
+                updatePresentation();
+            }
+        }
+
+        // Jump to a specific slide index directly
+        function jumpToSlide(slideNum) {
+            const idx = parseInt(slideNum) - 1;
+            if (idx >= 0 && idx < slides.length) {
+                currentSlideIndex = idx;
+                updatePresentation();
+            }
+        }
+
+        // Toggle Speaker Notes drawer panel
+        function toggleNotes() {
+            speakerNotesPanel.classList.toggle('open');
+            btnNotesToggle.classList.toggle('active');
+        }
+
+        // Project files switcher tabs
+        function showProjectFile(fileId, btnElement) {
+            const container = btnElement.closest('.project-explorer');
+
+            // Hide all tab contents in this specific explorer
+            const contents = container.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Deactivate all explorer files sidebar buttons
+            const buttons = container.querySelectorAll('.explorer-file');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Show and activate target elements
+            document.getElementById(fileId).classList.add('active');
+            btnElement.classList.add('active');
+        }
+
+        // Procedural simulation triggers
+        function animateProcedural() {
+            const dataBox = document.querySelector('.proc-data-box');
+            const funcBox = document.querySelector('.proc-func-box');
+            const dataCapsule = document.getElementById('procDataCapsule');
+            const consoleBox = document.getElementById('procConsole');
+
+            // Reset states
+            dataBox.style.transform = 'scale(1)';
+            funcBox.style.transform = 'scale(1)';
+            consoleBox.style.opacity = '0';
+            consoleBox.innerHTML = '';
+
+            dataCapsule.style.transition = 'none';
+            dataCapsule.style.transform = 'translate3d(0, 0, 0)';
+            dataCapsule.style.opacity = '0';
+            dataCapsule.offsetHeight; // force reflow
+
+            // Start
+            dataCapsule.style.opacity = '1';
+            dataCapsule.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            dataCapsule.style.transform = 'translate3d(145px, 0, 0)'; // Move to func box
+
+            setTimeout(() => {
+                dataBox.style.transform = 'scale(0.95)';
+                dataCapsule.style.opacity = '0';
+                funcBox.style.transform = 'scale(1.1)';
+                funcBox.style.background = 'rgba(239, 68, 68, 0.25)';
+            }, 750);
+
+            setTimeout(() => {
+                funcBox.style.transform = 'scale(1)';
+                funcBox.style.background = 'rgba(239, 68, 68, 0.1)';
+
+                consoleBox.style.opacity = '1';
+                consoleBox.innerHTML = '<span style="color:#6b7280">></span> Nome: Simba | Idade: 7 anos';
+            }, 1200);
+        }
+
+        // Orientação a Objetos simulation triggers
+        function animateOO() {
+            const callerBox = document.querySelector('.oo-caller-box');
+            const objCapsule = document.querySelector('.oo-object-capsule');
+            const methodBox = document.querySelector('.oo-method-box');
+            const msgCapsule = document.getElementById('ooMsgCapsule');
+            const consoleBox = document.getElementById('ooConsole');
+
+            // Reset states
+            callerBox.style.transform = 'scale(1)';
+            objCapsule.style.transform = 'scale(1)';
+            methodBox.style.background = 'rgba(16, 185, 129, 0.15)';
+            consoleBox.style.opacity = '0';
+            consoleBox.innerHTML = '';
+
+            msgCapsule.style.transition = 'none';
+            msgCapsule.style.transform = 'translate3d(0, 0, 0)';
+            msgCapsule.style.opacity = '0';
+            msgCapsule.offsetHeight; // force reflow
+
+            // Start
+            msgCapsule.style.opacity = '1';
+            msgCapsule.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            msgCapsule.style.transform = 'translate3d(150px, -15px, 0)'; // Move to object method
+
+            setTimeout(() => {
+                callerBox.style.transform = 'scale(0.95)';
+                msgCapsule.style.opacity = '0';
+                objCapsule.style.transform = 'scale(1.05)';
+                objCapsule.style.boxShadow = '0 0 20px rgba(16, 185, 129, 0.3)';
+                methodBox.style.background = 'rgba(16, 185, 129, 0.4)';
+            }, 750);
+
+            setTimeout(() => {
+                objCapsule.style.transform = 'scale(1)';
+                objCapsule.style.boxShadow = 'none';
+                methodBox.style.background = 'rgba(16, 185, 129, 0.15)';
+
+                consoleBox.style.opacity = '1';
+                consoleBox.innerHTML = '<span style="color:#6b7280">></span> Nome: Simba | Idade: 7 anos';
+            }, 1200);
+        }
+
+        // Initialize Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                navigateSlide(1);
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                navigateSlide(-1);
+            } else if (e.key.toLowerCase() === 'n') {
+                e.preventDefault();
+                toggleNotes();
+            }
+        });
+
+        // First render trigger
+        updatePresentation();
+    </script>
+</body>
+
+</html>
